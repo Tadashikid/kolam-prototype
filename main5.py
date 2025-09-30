@@ -12,10 +12,10 @@ gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 _, thresh = cv2.threshold(gray, 200, 255, cv2.THRESH_BINARY)
 
 # ---------------------------
-# Detect dots (Blob + fallback HoughCircles)
+# Detect dots 
 # ---------------------------
 def detect_dots(img, gray, thresh):
-    # Blob detection setup
+    # Blob detection
     params = cv2.SimpleBlobDetector_Params()
     params.filterByArea = True
     params.minArea = 5
@@ -35,7 +35,7 @@ def detect_dots(img, gray, thresh):
             r = int(kp.size / 2)
             dots.append((x, y, r))
     else:
-        # fallback to HoughCircles
+        # HoughCircles
         circles = cv2.HoughCircles(gray, cv2.HOUGH_GRADIENT, dp=1,
                                    minDist=15,
                                    param1=50,
@@ -50,7 +50,7 @@ def detect_dots(img, gray, thresh):
 dots = detect_dots(img, gray, thresh)
 
 # ---------------------------
-# Detect Kolam lines (contours)
+# Detect Kolam lines
 # ---------------------------
 contours, _ = cv2.findContours(thresh, cv2.RETR_LIST, cv2.CHAIN_APPROX_NONE)
 
@@ -78,7 +78,7 @@ cv2.imshow("Detected Lines", line_img)
 cv2.waitKey(0); cv2.destroyAllWindows()
 
 # ---------------------------
-# Turtle plotting setup
+# Turtle window startup
 # ---------------------------
 screen = turtle.Screen()
 screen.setup(width=800, height=800)
@@ -128,3 +128,4 @@ for cnt in contours:
         time.sleep(0.00002)
 
 turtle.done()
+
